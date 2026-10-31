@@ -14,7 +14,7 @@ const EMAIL_B64 = 'bWtiMjU5MTczQGdtYWlsLmNvbQ=='
 
 export const CONTACT = {
   github: 'https://github.com/MKB0820',
-  blog: 'https://yourname.example.com',
+  blog: 'https://mkb0820.pages.dev/',
 }
 
 /** 解码得到完整邮箱（仅在用户主动复制时调用）。 */

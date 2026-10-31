@@ -25,9 +25,9 @@ const ABOUT = `# 关于 MKB
 
 const CONTACT_TXT = `邮箱    mkb259173 [at] gmail [dot] com   （防爬虫写法）
 GitHub  https://github.com/MKB0820
-Blog    https://yourname.example.com     （请替换）
+Blog    https://mkb0820.pages.dev/
 
-※ 邮箱请用 contact 命令一键复制；Blog 仍为占位信息。`
+※ 邮箱请用 contact 命令一键复制。`
 
 const SKILLS_TXT = `前端    HTML/CSS · JavaScript · TypeScript · React · Tailwind CSS
 后端    Node.js · REST API · Python · 数据库基础

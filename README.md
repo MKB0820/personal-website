@@ -65,10 +65,9 @@ npm run preview # 本地预览构建产物
 
 | 位置 | 占位符 | 说明 |
 | --- | --- | --- |
-| `src/data/contact.ts` | `https://yourname.example.com` | Blog |
 | `src/data/projects.ts` | `repo` / `demo`（可选字段） | 项目仓库与 Demo 链接 |
 | `src/data/filesystem.ts` | 对应的文件内容 | `cat` 输出的项目信息 |
 
 > 邮箱做了防爬虫处理：在 `src/data/contact.ts` 中以 Base64 存储，界面只显示 `mkb259173 [at] gmail [dot] com`，点击「复制邮箱」时才解码出完整地址；不使用 `mailto:` 链接，避免 href 被直接抓取。
 >
-> GitHub 已设置为真实账号 `https://github.com/MKB0820`。项目卡片的 `repo` / `demo` 为可选字段：目前 4 个项目尚未关联真实仓库，卡片显示「仓库未公开」「暂无 Demo」，填上链接后自动变为可点击。
+> GitHub 已设置为真实账号 `https://github.com/MKB0820`，Blog 指向已部署站点 `https://mkb0820.pages.dev/`。项目卡片的 `repo` / `demo` 为可选字段：目前 4 个项目尚未关联真实仓库，卡片显示「仓库未公开」「暂无 Demo」，填上链接后自动变为可点击。

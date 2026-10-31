@@ -197,9 +197,7 @@ export const COMMANDS: CommandDef[] = [
           <Row k="Blog">
             <Link href={CONTACT.blog}>{CONTACT.blog}</Link>
           </Row>
-          <Text dim>
-            ※ 邮箱做了防爬虫处理，点击「复制邮箱」即可获得完整地址；Blog 仍为占位信息。
-          </Text>
+          <Text dim>※ 邮箱做了防爬虫处理，点击「复制邮箱」即可获得完整地址。</Text>
         </div>
       )
     },
