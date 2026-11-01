@@ -48,8 +48,8 @@ const PROJECT_FILES: FsNode[] = PROJECTS.map(
       p.desc,
       '',
       `技术栈  ${p.stack.join(' · ')}`,
-      '仓库    未公开',
-      'Demo    暂无',
+      `仓库    ${p.repo ?? '未公开'}`,
+      `Demo    ${p.demo ?? '暂无'}`,
     ].join('\n'),
   }),
 )
