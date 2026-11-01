@@ -4,13 +4,13 @@ import type { Project } from '../data/projects'
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <TiltCard className="t-card">
-      <div className="flex items-baseline justify-between gap-3 flex-wrap">
+    <TiltCard className="t-card flex h-full flex-col">
+      <div className="flex flex-col gap-0.5">
         <span className="t-accent-bright font-bold">{project.name}</span>
         <span className="t-dim text-xs">{project.stack.join(' · ')}</span>
       </div>
-      <p className="t-fg text-sm mt-1.5">{project.desc}</p>
-      <div className="flex gap-5 mt-2.5 text-sm">
+      <p className="t-fg text-sm mt-2">{project.desc}</p>
+      <div className="flex gap-5 mt-auto pt-3 text-sm">
         {project.repo ? (
           <Link href={project.repo}>GitHub ↗</Link>
         ) : (

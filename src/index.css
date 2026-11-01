@@ -286,9 +286,11 @@ button:focus-visible {
 /* ============ 动效与微交互 ============ */
 /* 3D 倾斜卡片 */
 .tilt {
+  height: 100%;
   perspective: 900px;
 }
 .tilt-inner {
+  height: 100%;
   position: relative;
   transform: translateY(var(--lift, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transform-style: preserve-3d;

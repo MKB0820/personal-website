@@ -166,7 +166,7 @@ export const COMMANDS: CommandDef[] = [
       return (
         <div>
           <Title>项目</Title>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 auto-rows-fr gap-3">
             {PROJECTS.map((p) => (
               <ProjectCard key={p.name} project={p} />
             ))}

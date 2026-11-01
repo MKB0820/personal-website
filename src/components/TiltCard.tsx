@@ -10,13 +10,15 @@ interface TiltCardProps {
   maxTilt?: number
 }
 
+const DEFAULT_MAX_TILT = 10
+
 /**
  * 3D 倾斜卡片：鼠标悬停时根据指针位置轻微倾斜，并带一个跟随指针的高光。
  * - 触屏（pointerType === 'touch'）下禁用；
  * - prefers-reduced-motion 下禁用；
  * - 倾斜量由 CSS 变量 --rx / --ry 驱动，离开时平滑复位。
  */
-export function TiltCard({ children, className, maxTilt = 5 }: TiltCardProps) {
+export function TiltCard({ children, className, maxTilt = DEFAULT_MAX_TILT }: TiltCardProps) {
   const reduced = usePrefersReducedMotion()
   const ref = useRef<HTMLDivElement>(null)
 
