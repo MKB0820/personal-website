@@ -49,11 +49,15 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* 页面背景光晕 */
+/* 页面背景光晕：跟随当前主题的强调色（含旧浏览器回退） */
 .bg-glow {
   background:
     radial-gradient(ellipse 70% 55% at 50% -12%, rgba(52, 211, 153, 0.10), transparent 60%),
     radial-gradient(ellipse 55% 45% at 50% 112%, rgba(34, 211, 238, 0.06), transparent 60%),
+    var(--bg);
+  background:
+    radial-gradient(ellipse 70% 55% at 50% -12%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 50% 112%, color-mix(in oklab, var(--accent) 7%, transparent), transparent 60%),
     var(--bg);
 }
 
@@ -317,13 +321,213 @@ button:focus-visible {
   opacity: 1;
 }
 
-/* 终端窗口入场 */
+/* 终端窗口入场：仅在关闭 CRT 时使用，避免与开机动画叠加 */
 @keyframes window-in {
   from { opacity: 0; transform: translateY(14px) scale(0.99); }
   to { opacity: 1; transform: none; }
 }
-.t-window {
+.t-window[data-crt="false"] {
   animation: window-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 文字（含输入行）必须画在聚光层之上 */
+.t-scroll,
+.t-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ 命令补全面板 ============ */
+.t-suggest-wrap {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+  animation: suggest-in 0.12s ease-out both;
+}
+.t-suggest {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.t-suggest-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.t-suggest-row + .t-suggest-row {
+  border-top: 1px solid var(--border);
+}
+.t-suggest-row.is-active {
+  background: var(--accent-dim);
+  border-left-color: var(--accent);
+}
+.t-suggest-name {
+  color: var(--accent-bright);
+  font-weight: 700;
+}
+.t-suggest-desc {
+  margin-left: auto;
+  max-width: 58%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.t-suggest-hint {
+  flex-shrink: 0;
+  padding: 0.35rem 0.75rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--text-dim);
+  font-size: 0.68rem;
+}
+@keyframes suggest-in {
+  from { opacity: 0; transform: translateY(4px); }
+}
+
+@media (max-width: 640px) {
+  .t-suggest-desc {
+    display: none;
+  }
+}
+
+/* ============ 指针聚光 ============ */
+.t-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.t-spot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, var(--accent-dim), transparent 70%);
+  transform: translate3d(calc(var(--spot-x, 0px) - 260px), calc(var(--spot-y, 0px) - 260px), 0);
+  opacity: var(--spot-o, 0);
+  transition: opacity 0.35s ease;
+  will-change: transform;
+}
+
+/* ============ CRT 开机 ============ */
+.crt-power {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: var(--panel);
+  transform-origin: center;
+  animation: crt-open 540ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+}
+.crt-power::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: var(--accent-bright);
+  box-shadow: 0 0 18px 2px var(--accent);
+  animation: crt-line 540ms ease-out both;
+}
+@keyframes crt-open {
+  0% { transform: scaleY(0.0035) scaleX(0.55); opacity: 1; }
+  18% { transform: scaleY(0.0035) scaleX(0.9); }
+  55% { transform: scaleY(1) scaleX(1); }
+  75% { opacity: 1; }
+  100% { transform: scaleY(1) scaleX(1); opacity: 0; }
+}
+@keyframes crt-line {
+  0%, 45% { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+/* ============ 清屏闪光 ============ */
+.t-clear-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  background: var(--accent);
+  opacity: 0;
+  animation: clear-flash 0.28s ease-out both;
+}
+@keyframes clear-flash {
+  0% { opacity: 0.12; }
+  100% { opacity: 0; }
+}
+
+/* ============ 标题栏活动灯 ============ */
+.activity-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.22;
+  flex-shrink: 0;
+}
+.activity-led.is-on {
+  animation: led-blink 0.52s steps(1, end) 1;
+}
+@keyframes led-blink {
+  0%, 18% { opacity: 1; }
+  22%, 40% { opacity: 0.22; }
+  44%, 62% { opacity: 1; }
+  66%, 100% { opacity: 0.22; }
+}
+
+/* ============ 错误行 ============ */
+.err-line {
+  position: relative;
+  padding-left: 0.55rem;
+  animation: err-nudge 0.18s ease-out 1;
+}
+.err-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--warn);
+}
+@keyframes err-nudge {
+  0%, 100% { transform: none; }
+  25% { transform: translateX(-2px); }
+  60% { transform: translateX(1.5px); }
+}
+
+/* ============ 主题径向擦除（View Transitions） ============ */
+::view-transition-old(root) {
+  animation: none;
+}
+::view-transition-new(root) {
+  animation: theme-wipe 0.42s steps(8, end) both;
+  clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 50%));
+}
+@keyframes theme-wipe {
+  from {
+    clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
 }
 
 /* 输出行入场 */
@@ -346,6 +550,15 @@ button:focus-visible {
   .t-cursor-block { animation: none !important; }
   .tilt-inner { transform: none !important; transition: none !important; }
   .tilt-glare { display: none !important; }
+  .crt-power, .t-clear-flash { display: none !important; }
+  .t-suggest-wrap, .err-line { animation: none !important; }
+  .t-spot {
+    left: 50%;
+    top: 90%;
+    transform: translate(-50%, -50%);
+    opacity: 0.22;
+    transition: none;
+  }
   *,
   *::before,
   *::after {
