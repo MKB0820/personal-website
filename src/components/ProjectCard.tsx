@@ -1,15 +1,6 @@
 import { Link } from './Term'
 import { TiltCard } from './TiltCard'
-
-export interface Project {
-  name: string
-  desc: string
-  stack: string[]
-  /** 仓库链接；未公开时省略，卡片显示「仓库未公开」。 */
-  repo?: string
-  /** 在线演示链接；未部署时省略，卡片显示「暂无 Demo」。 */
-  demo?: string
-}
+import type { Project } from '../data/projects'
 
 export function ProjectCard({ project }: { project: Project }) {
   return (

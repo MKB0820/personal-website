@@ -1,5 +1,7 @@
 /** 简单的内存文件系统，用于 ls / cat 命令。 */
 
+import { PROJECTS } from './projects'
+
 export interface FsNode {
   type: 'file' | 'dir'
   name: string
@@ -34,59 +36,23 @@ const SKILLS_TXT = `前端    HTML/CSS · JavaScript · TypeScript · React · T
 工具    Git · Linux · Vite · 命令行
 学习中  云部署 · 工程化 · Docker · 测试`
 
-const PROJECT_FILES: FsNode[] = [
-  {
+/** 由 PROJECTS 自动生成项目文件，保证 cat 内容与项目卡片始终一致。 */
+const PROJECT_FILES: FsNode[] = PROJECTS.map(
+  (p): FsNode => ({
     type: 'file',
-    name: 'campus-toolbox.md',
-    desc: '校园工具箱',
-    content: `校园工具箱
-----------------
-面向高中生的校园工具集合：课程表、作业提醒、
-倒计时与常用查询，纯前端实现。
-
-技术栈  React · TypeScript · Tailwind CSS
-仓库    未公开
-Demo    暂无`,
-  },
-  {
-    type: 'file',
-    name: 'blog.md',
-    desc: '个人博客系统',
-    content: `个人博客系统
-----------------
-Markdown 驱动的静态博客，支持标签、归档与 RSS。
-
-技术栈  Vite · MDX · Node.js
-仓库    未公开
-Demo    暂无`,
-  },
-  {
-    type: 'file',
-    name: 'todo-app.md',
-    desc: '全栈待办应用',
-    content: `全栈待办应用
-----------------
-前后端分离的待办清单：JWT 登录、REST API
-与数据库持久化，支持多人协作。
-
-技术栈  React · Node.js · PostgreSQL
-仓库    未公开
-Demo    暂无`,
-  },
-  {
-    type: 'file',
-    name: 'cli-tool.md',
-    desc: '开源 CLI 小工具',
-    content: `开源 CLI 小工具
-----------------
-用 Node.js 编写的命令行小工具，提供脚手架、
-批量重命名等实用能力。
-
-技术栈  Node.js · TypeScript · CLI
-仓库    未公开
-Demo    暂无`,
-  },
-]
+    name: `${p.slug}.md`,
+    desc: p.name,
+    content: [
+      p.name,
+      '----------------',
+      p.desc,
+      '',
+      `技术栈  ${p.stack.join(' · ')}`,
+      '仓库    未公开',
+      'Demo    暂无',
+    ].join('\n'),
+  }),
+)
 
 export const ROOT: FsNode = {
   type: 'dir',

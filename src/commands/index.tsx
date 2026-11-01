@@ -171,7 +171,7 @@ export const COMMANDS: CommandDef[] = [
               <ProjectCard key={p.name} project={p} />
             ))}
           </div>
-          <Text dim>※ 项目为占位内容，请替换为你的真实项目与链接。</Text>
+          <Text dim>※ 以上为静态示例项目，请替换为你的真实项目与链接。</Text>
         </div>
       )
     },
