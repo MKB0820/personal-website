@@ -1,4 +1,5 @@
 import { Link } from './Term'
+import { TiltCard } from './TiltCard'
 
 export interface Project {
   name: string
@@ -12,7 +13,7 @@ export interface Project {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="t-card">
+    <TiltCard className="t-card">
       <div className="flex items-baseline justify-between gap-3 flex-wrap">
         <span className="t-accent-bright font-bold">{project.name}</span>
         <span className="t-dim text-xs">{project.stack.join(' · ')}</span>
@@ -30,6 +31,6 @@ export function ProjectCard({ project }: { project: Project }) {
           <span className="t-dim">暂无 Demo</span>
         )}
       </div>
-    </article>
+    </TiltCard>
   )
 }

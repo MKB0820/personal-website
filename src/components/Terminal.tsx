@@ -281,11 +281,11 @@ export default function Terminal() {
             )}
             {lines.map((line) =>
               line.role === 'input' ? (
-                <div key={line.id} className="t-fg">
+                <div key={line.id} className="t-fg line-enter">
                   <Prompt>{line.text}</Prompt>
                 </div>
               ) : (
-                <div key={line.id} className="t-fg">
+                <div key={line.id} className="t-fg line-enter">
                   {line.node}
                 </div>
               ),

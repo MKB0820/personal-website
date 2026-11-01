@@ -135,6 +135,11 @@ body {
   background: var(--accent-dim);
   border: 1px solid var(--border);
   border-radius: 6px;
+  transition: transform 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.t-tag:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
 }
 .t-link {
   color: var(--accent-bright);
@@ -160,7 +165,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 6px;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.08s ease;
 }
 .t-btn:hover {
   color: var(--accent-bright);
@@ -190,11 +195,10 @@ button:focus-visible {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--bg-soft);
-  transition: border-color 0.15s, transform 0.15s;
 }
 .t-card:hover {
   border-color: var(--accent);
-  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
 }
 
 /* ============ 输入 ============ */
@@ -279,10 +283,67 @@ button:focus-visible {
   }
 }
 
+/* ============ 动效与微交互 ============ */
+/* 3D 倾斜卡片 */
+.tilt {
+  perspective: 900px;
+}
+.tilt-inner {
+  position: relative;
+  transform: translateY(var(--lift, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  will-change: transform;
+}
+.tilt-inner:hover {
+  --lift: -3px;
+}
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    360px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.07),
+    transparent 42%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.tilt-inner:hover .tilt-glare {
+  opacity: 1;
+}
+
+/* 终端窗口入场 */
+@keyframes window-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.99); }
+  to { opacity: 1; transform: none; }
+}
+.t-window {
+  animation: window-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 输出行入场 */
+@keyframes line-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+.line-enter {
+  animation: line-in 0.22s ease-out both;
+}
+
+/* 按钮按压反馈 */
+.t-btn:active {
+  transform: translateY(1px) scale(0.97);
+}
+
 /* ============ 无障碍：减少动态效果 ============ */
 @media (prefers-reduced-motion: reduce) {
   .crt-overlay { animation: none !important; }
   .t-cursor-block { animation: none !important; }
+  .tilt-inner { transform: none !important; transition: none !important; }
+  .tilt-glare { display: none !important; }
   *,
   *::before,
   *::after {
