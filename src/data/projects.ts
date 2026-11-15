@@ -31,6 +31,8 @@ export const PROJECTS: Project[] = [
     slug: 'image-compressor',
     desc: '纯前端批量图片压缩与格式转换：Canvas 与 Web Worker 并行处理大图，保留 EXIF 方向，拖拽导入后打包下载。',
     stack: ['React', 'TypeScript', 'Web Worker', 'Canvas'],
+    repo: 'https://github.com/MKB0820/image-compression-workbench',
+    demo: 'https://image-compression-workbench.pages.dev',
   },
   {
     name: '本地加密密码库',
