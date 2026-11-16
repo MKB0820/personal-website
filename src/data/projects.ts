@@ -39,6 +39,8 @@ export const PROJECTS: Project[] = [
     slug: 'secure-vault',
     desc: '零后端的密码管理器：Web Crypto 的 AES-GCM 加密与 PBKDF2 密钥派生，数据只存 IndexedDB，支持自动锁定与剪贴板清除。',
     stack: ['TypeScript', 'Web Crypto', 'IndexedDB'],
+    repo: 'https://github.com/MKB0820/secure-vault',
+    demo: 'https://secure-vault.r6mhh6hkwj.workers.dev/',
   },
   {
     name: 'WebGL 图像滤镜实验室',
